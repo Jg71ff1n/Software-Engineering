@@ -24,7 +24,7 @@ vpath %.h $(INCLUDEDIR)
 
 # "all" is the first target in the file, so "make" and "make all"
 # will have the same effect.
-all: randomPrime checkPrime
+all: randomPrime checkPrime listPrimes
 
 # Building "randomPrime" depends on its cpp file, and the object and
 # header files for "prime".
@@ -35,6 +35,9 @@ randomPrime: randomPrime.cpp prime.o
 checkPrime: checkPrime.cpp prime.o
 	g++ $(CXXFLAGS) checkPrime.cpp prime.o -o checkPrime
 
+listPrimes: listPrimes.cpp prime.o
+	g++ $(CXXFLAGS) listPrimes.cpp prime.o -o listPrimes
+
 # The following rule builds object code (without linking into an executable).
 prime.o : prime.cpp prime.h
 	g++ $(CXXFLAGS) -c prime.cpp -o prime.o
@@ -43,5 +46,5 @@ prime.o : prime.cpp prime.h
 # "clean" is a so-called "phoney target".  It doesn't correspond to a file.
 # Rather than building anything, it instead performs some clean-up commands.
 clean:
-	rm -f prime.o randomPrime checkPrime
+	rm -f prime.o randomPrime checkPrime listPrimes
 # -f : force (succeed even if the files to be deleted don't exist)
