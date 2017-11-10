@@ -6,8 +6,12 @@
 # Lines starting with the # symbol are comments.
 
 # These are makefile variables:
-INCLUDEDIR = ../headers/
-CXXFLAGS   = -std=c++11 -I $(INCLUDEDIR) -Wall -Wfatal-errors
+INCLUDEDIR     = ../headers/
+CXXFLAGS       = -std=c++11 -I $(INCLUDEDIR) -Wall -Wfatal-errors
+PRIMEVAR       = randomPrime checkPrime listPrimes
+FACTORIALVAR   = oneFactorial listFactorial
+OBJECTS        = prime.o calcFactorial.o
+
 # "$(X)" is replaced with the value of the variable "X".
 # These are flags for the C++ compiler:
 #   -std=c++11     : Use the C++11 language standard
@@ -24,27 +28,26 @@ vpath %.h $(INCLUDEDIR)
 
 # "all" is the first target in the file, so "make" and "make all"
 # will have the same effect.
-all: randomPrime checkPrime listPrimes
+all: $(PRIMEVAR) $(FACTORIALVAR)
 
 # Building "randomPrime" depends on its cpp file, and the object and
 # header files for "prime".
-randomPrime: randomPrime.cpp prime.o
-	g++ $(CXXFLAGS) randomPrime.cpp prime.o -o randomPrime
-# -o <filename> : specify that the name of the output file should be <filename>
 
-checkPrime: checkPrime.cpp prime.o
-	g++ $(CXXFLAGS) checkPrime.cpp prime.o -o checkPrime
+$(PRIMEVAR): %: %.cpp prime.o
+	g++ $(CXXFLAGS) $^ -o $@
 
-listPrimes: listPrimes.cpp prime.o
-	g++ $(CXXFLAGS) listPrimes.cpp prime.o -o listPrimes
+$(FACTORIALVAR): %: %.cpp calcFactorial.o
+	g++ $(CXXFLAGS) $^ -o $@
 
 # The following rule builds object code (without linking into an executable).
-prime.o : prime.cpp prime.h
-	g++ $(CXXFLAGS) -c prime.cpp -o prime.o
+#prime.o : prime.cpp prime.h
+#	g++ $(CXXFLAGS) -c prime.cpp -o prime.o
 # -c : compile only, no linking
+#calcFactorial.o : calcFactorial.cpp factorial.h
+#	g++ $(CXXFLAGS) -c calcFactorial.cpp -o calcFactorial.o
 
 # "clean" is a so-called "phoney target".  It doesn't correspond to a file.
 # Rather than building anything, it instead performs some clean-up commands.
 clean:
-	rm -f prime.o randomPrime checkPrime listPrimes
+	rm -f $(PRIMEVAR) $(FACTORIALVAR) $(OBJECTS)
 # -f : force (succeed even if the files to be deleted don't exist)
