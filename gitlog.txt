@@ -1,0 +1,29 @@
+commit 81eab72227466c0780c8b6a78aaf5e60a68f8103
+Author: Joe Griffin <n0680192@ntu.ac.uk>
+Date:   Tue Nov 14 15:28:34 2017 +0000
+
+    Fixed creation of single object files
+
+commit a144899f44975cba51b0cc01870540b9ed1183b2
+Author: Joe Griffin <n0680192@ntu.ac.uk>
+Date:   Fri Nov 10 12:17:13 2017 +0000
+
+    Fixed issue with git repo not showing up. All files present and completed
+
+commit e2330fc34452a7aa917e58a586852718eabead68
+Author: Joe Griffin <n0680192@ntu.ac.uk>
+Date:   Sat Nov 4 12:49:44 2017 +0000
+
+    List Primes Added and makefiles updated
+
+commit 15b07de09640a5d3bddf43e115c6ad18f8deaa09
+Author: Joe Griffin <n0680192@ntu.ac.uk>
+Date:   Sat Nov 4 12:23:46 2017 +0000
+
+    Added gitignore file
+
+commit 244b638168bbbfe84bbe188277930efda9be0c4e
+Author: Joe Griffin <n0680192@ntu.ac.uk>
+Date:   Sat Nov 4 12:15:14 2017 +0000
+
+    Inital Commit
