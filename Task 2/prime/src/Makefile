@@ -11,6 +11,7 @@ CXXFLAGS       = -std=c++11 -I $(INCLUDEDIR) -Wall -Wfatal-errors
 PRIMEVAR       = randomPrime checkPrime listPrimes
 FACTORIALVAR   = oneFactorial listFactorial
 OBJECTS        = prime.o calcFactorial.o
+HEADERS        = prime.h factorial.h
 
 # "$(X)" is replaced with the value of the variable "X".
 # These are flags for the C++ compiler:
@@ -28,7 +29,7 @@ vpath %.h $(INCLUDEDIR)
 
 # "all" is the first target in the file, so "make" and "make all"
 # will have the same effect.
-all: $(PRIMEVAR) $(FACTORIALVAR)
+all: $(OBJECTS) $(PRIMEVAR) $(FACTORIALVAR)
 
 # Building "randomPrime" depends on its cpp file, and the object and
 # header files for "prime".
@@ -38,6 +39,9 @@ $(PRIMEVAR): %: %.cpp prime.o
 
 $(FACTORIALVAR): %: %.cpp calcFactorial.o
 	g++ $(CXXFLAGS) $^ -o $@
+
+$(OBJECTS): %.o: %.cpp $(HEADERS)
+	g++ $(CXXFLAGS) -c $< -o $@
 
 # The following rule builds object code (without linking into an executable).
 #prime.o : prime.cpp prime.h
