@@ -3,7 +3,7 @@ CXXFLAGS       = -std=c++11 -I $(INCLUDEDIR) -Wall -Wfatal-errors -O2
 PRIMEBEST      = primeFactors-BestStudent_2016-2017.o
 PRIMEOPTIMISED = primeFactors-Optimised.o
 PRIMEFACTORS   = primeFactors.o
-ALLTESTS       = correctnessTestBest timingTestsBest correctnessTestOptimised timingTestsOptimised
+ALLTESTS       = correctnessTestBest timingTestsBest correctnessTestOptimised timingTestsOptimised timingTestsPrimes correctnessTestPrimes primeFactorMain
 
 
 vpath %.h $(INCLUDEDIR)
@@ -26,6 +26,9 @@ correctnessTestPrimes: $(PRIMEFACTORS) correctnessTests.cpp
 	g++ $(CXXFLAGS) $^ -lboost_unit_test_framework -o $@
 
 timingTestsPrimes: $(PRIMEFACTORS) timingTests.cpp
+	g++ $(CXXFLAGS) $^ -o $@
+
+primeFactorMain: $(PRIMEFACTORS) main.cpp
 	g++ $(CXXFLAGS) $^ -o $@
 
 primeFactors.o: primeFactors.cpp
