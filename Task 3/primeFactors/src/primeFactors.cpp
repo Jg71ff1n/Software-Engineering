@@ -1,37 +1,27 @@
 #include "primeFactors.h"
-
+void sieveOfE();
 using namespace std;
+using std::chrono::steady_clock;
+using std::chrono::milliseconds;
+using std::chrono::duration_cast;
 
-const int MAX = 10000000;
-const int MIN = 0;
-const int TRIAL_LIMIT = 500000
-bool isPrime[MAX];
-
+const int MAX_SIEVE = 10000000;
+const int SIEVE_SIZE=(MAX_SIEVE/2)+1;
+static bool isPrime[MAX_SIEVE];
 
 list<unsigned long int> primeFactors(unsigned long int input){
 	list<unsigned long int> output;
-	unsigned long long int original_factor, current_factor, top_factor;
-	sieveOfE();
-	//Loop finds for all prime factors/Checks first to see if number is prime
-	while(checkPrime(input)!=true){
-		//Find first factor
-		original_factor=findFactor(input);
-		current_factor=top_factor=original_factor;
-		//NEW LOOP TO GO DOWN TREE
-		while(checkPrime(top_factor!=true){
-			//Recursive loop to find prime factor from top_factor
-			while(checkPrime(current_factor)!=true) {
-				current_factor=findFactor(current_factor);
-			}
-			output.pushback(current_factor);
-			top_factor=top_factor/current_factor;
-			current_factor=top_factor;
-		}
-		output.pushback(top_factor);
-		//Removes original_factor from input. After branch is empty
-		input=input/original_factor;
+	//unsigned long int original_factor, current_factor, top_factor;
+	if (input<=1){
+		return output;
 	}
-	
+	//steady_clock::time_point startTime = steady_clock::now();
+	sieveOfE();		
+	//steady_clock::time_point finishTime = steady_clock::now();
+	//milliseconds timeTaken = duration_cast<milliseconds>(finishTime - startTime);
+	//cout << "Time taken: " << timeTaken.count() << "ms" << endl;
+	//Loop finds for all prime factors/Checks first to see if number is prime
+	output=trialDivision(input);
 	return output;
 }
 
@@ -46,41 +36,69 @@ int greatestCommonDivisor(int x, int y){
 }
 
 void sieveOfE(){
-	memset(isPrime,true,sizeof(isPrime));
-	int i,j,k;
-	isPrime[1]=false;
-	for(i=4; i<=MAX;i+=2){
-		isPrime[i]=false;	
-	}
-	for (i=3;i<=MIN;i+=2){
-		if(isPrime[i]){
-			for(j=i*i,k=i<<1;j<=MAX;j+=k){
-				isPrime[j]=false;
-			}
-		}
-	}
+    memset(isPrime, true, sizeof(isPrime));
+    isPrime[0]=false;
+    isPrime[1]=false;
+	for (long int p=2; p<MAX_SIEVE; p++)
+    {
+        // If prime[p] is not changed, then it is a prime
+        if (isPrime[p] == true)
+        {
+            // Update all multiples of p
+            for (long int i=p*p; i<=MAX_SIEVE; i +=p)
+                isPrime[i] = false;
+        }
+    }
+    //Output all primes
+/*    for (int i=0; i<100;i++){
+    	if(isPrime[i]==true){
+    		cout<<i<<endl;
+    	}
+    }*/
+    isPrime[2]=true;
 }
 
-unsigned long long int findFactor(unsigned long long int input){
-	unsigned long long int factor;
-	if (input<=TRIAL_LIMIT){
-		 factor=trialDivision(input);
+unsigned long int findFactor(unsigned long int input){
+	unsigned long int factor;
+	if (input<=MAX_SIEVE){
+		 //factor=trialDivision(input);
 	}
 	else{
 		factor=rhoFactor(input);
 	}
 }
 
-unsigned long long int rhoFactor(unsigned long long int input){
+unsigned long int rhoFactor(unsigned long int input){
 
 }
 
-unsigned long long int trialDivision(unsigned long long int input){
-
+list<unsigned long int> trialDivision(unsigned long int input){
+	list<unsigned long int> output;
+	unsigned long int i=2;
+	while(i*i<=input){
+		cout<<"While loop"<<i<<endl;
+		if (input<MAX_SIEVE){
+			if (isPrime[i] && input%i==0){
+				input=input/i;
+				cout<<"PRIME FOUND"<<endl;
+				output.push_back(i);
+			}
+			else{
+				continue;
+			}
+		}
+		else if(input%i==0){
+			input=input/i;
+			output.push_back(i);
+		}
+		else{
+			i++;
+		}
+	}
 }
 
-bool checkPrime(unsigned long long int input){
-	if (input<MAX){
+bool checkPrime(unsigned long int input){
+	if (input<MAX_SIEVE){
 		if (isPrime[input]){
 			return true;
 		}
@@ -98,7 +116,7 @@ bool checkPrime(unsigned long long int input){
 	}
 }
 
-bool millerPrime(unsigned long long int input){
+bool millerPrime(unsigned long int input){
 
 }
 

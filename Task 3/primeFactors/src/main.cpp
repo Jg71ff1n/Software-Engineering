@@ -8,5 +8,5 @@ int main(){
 	cout<<"Please enter a number"<<endl;
 	cin>>input;
 	primeFactors(input);
-	seiveOfE();
+	//seiveOfE();
 }
