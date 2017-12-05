@@ -10,7 +10,7 @@ const int SIEVE_SIZE=(MAX_SIEVE/2)+1;
 static bool isPrime[MAX_SIEVE];
 
 list<unsigned long int> primeFactors(unsigned long int input){
-	list<unsigned long int> output;
+	list<unsigned long int> output = {};
 	//unsigned long int original_factor, current_factor, top_factor;
 	if (input<=1){
 		return output;
@@ -75,7 +75,7 @@ unsigned long int rhoFactor(unsigned long int input){
 list<unsigned long int> trialDivision(unsigned long int input){
 	list<unsigned long int> output;
 	unsigned long int i=2;
-	while(i*i<=input){
+	while(i<=input/i){
 		cout<<"While loop"<<i<<endl;
 		if (input<MAX_SIEVE){
 			if (isPrime[i] && input%i==0){
