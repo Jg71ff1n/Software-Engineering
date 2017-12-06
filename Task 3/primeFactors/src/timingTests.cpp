@@ -17,6 +17,32 @@ using std::chrono::steady_clock;
 using std::chrono::milliseconds;
 using std::chrono::duration_cast;
 
+//const int MAX_SIEVE = 10000000;
+//const int SIEVE_SIZE=(MAX_SIEVE/2)+1;
+//static bool isPrime[MAX_SIEVE];
+
+/*void sieveOfE(){
+    memset(isPrime, true, sizeof(isPrime));
+    isPrime[0]=false;
+    isPrime[1]=false;
+	for (long int p=2; p<MAX_SIEVE; p++)
+    {
+        // If prime[p] is not changed, then it is a prime
+        if (isPrime[p] == true)
+        {
+            // Update all multiples of p
+            for (long int i=p*p; i<=MAX_SIEVE; i +=p)
+                isPrime[i] = false;
+        }
+    }
+    //Output all primes
+    /*for (int i=0; i<100;i++){
+    	if(isPrime[i]==true){
+    		cout<<i<<endl;
+    	}
+    }
+    isPrime[2]=true;
+}*/
 
 void testPrimeFactors(unsigned long int n)
 {
@@ -59,7 +85,7 @@ int main()
       6588122883467696985ul,
       18446744073709551557ul
     };
-
+	//sieveOfE();
     for (unsigned long int n : testData)
     {
         testPrimeFactors(n);

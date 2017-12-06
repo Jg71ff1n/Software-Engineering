@@ -8,6 +8,7 @@ using std::chrono::duration_cast;
 const int MAX_SIEVE = 10000000;
 const int SIEVE_SIZE=(MAX_SIEVE/2)+1;
 static bool isPrime[MAX_SIEVE];
+static bool isSieveCalled=false;
 
 list<unsigned long int> primeFactors(unsigned long int input){
 	list<unsigned long int> output = {};
@@ -16,7 +17,10 @@ list<unsigned long int> primeFactors(unsigned long int input){
 		return output;
 	}
 	//steady_clock::time_point startTime = steady_clock::now();
-	sieveOfE();		
+	if(isSieveCalled==false){
+		sieveOfE();		
+		isSieveCalled=true;
+	}
 	//steady_clock::time_point finishTime = steady_clock::now();
 	//milliseconds timeTaken = duration_cast<milliseconds>(finishTime - startTime);
 	//cout << "Time taken: " << timeTaken.count() << "ms" << endl;
@@ -50,7 +54,7 @@ void sieveOfE(){
         }
     }
     //Output all primes
-/*    for (int i=0; i<100;i++){
+    /*for (int i=0; i<100;i++){
     	if(isPrime[i]==true){
     		cout<<i<<endl;
     	}
@@ -73,28 +77,44 @@ unsigned long int rhoFactor(unsigned long int input){
 }
 
 list<unsigned long int> trialDivision(unsigned long int input){
-	list<unsigned long int> output;
-	unsigned long int i=2;
+	list<unsigned long int> output={};
+	unsigned long int i;
+	i=3;
 	while(i<=input/i){
-		cout<<"While loop"<<i<<endl;
-		if (input<MAX_SIEVE){
-			if (isPrime[i] && input%i==0){
-				input=input/i;
-				cout<<"PRIME FOUND"<<endl;
+		//cout<<"While loop "<<i<<endl;
+		if (input %2==0){
+			//cout<<"PRIME FOUND"<<endl;
+			output.push_back(2);
+			//cout<<"Pushback"<<endl;
+			input=input/2;
+		}
+		if (i<MAX_SIEVE){
+			if (isPrime[i]==true && input % i==0){
+				//cout<<"PRIME FOUND"<<endl;
 				output.push_back(i);
+				//cout<<"Pushback"<<endl;
+				input=input/i;
 			}
 			else{
-				continue;
+				i+=2;
+				//cout<<"INCREMENTED"<<endl;
 			}
 		}
-		else if(input%i==0){
-			input=input/i;
-			output.push_back(i);
-		}
 		else{
-			i++;
+			if (input % i==0){
+				//cout<<"PRIME FOUND"<<endl;
+				output.push_back(i);
+				//cout<<"Pushback"<<endl;
+				input=input/i;
+			}
+			else{
+				i+=2;
+				//cout<<"INCREMENTED"<<endl;
+			}
 		}
 	}
+	output.push_back(input);
+	return output;
 }
 
 bool checkPrime(unsigned long int input){
