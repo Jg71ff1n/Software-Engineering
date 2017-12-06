@@ -80,36 +80,33 @@ list<unsigned long int> trialDivision(unsigned long int input){
 	list<unsigned long int> output={};
 	unsigned long int i;
 	i=3;
-	while(i<=input/i){
-		//cout<<"While loop "<<i<<endl;
-		if (input %2==0){
-			//cout<<"PRIME FOUND"<<endl;
+	//WHILE LOOP FOR DIVISION BY TWO
+	while(input %2==0){
 			output.push_back(2);
-			//cout<<"Pushback"<<endl;
 			input=input/2;
 		}
+	while(i<=input/i){
+		/*if (input %2==0){
+			output.push_back(2);
+			input=input/2;
+		}*/
+		//Check to see if sieve check is too slow
 		if (i<MAX_SIEVE){
 			if (isPrime[i]==true && input % i==0){
-				//cout<<"PRIME FOUND"<<endl;
 				output.push_back(i);
-				//cout<<"Pushback"<<endl;
-				input=input/i;
+				input/=i;
 			}
 			else{
 				i+=2;
-				//cout<<"INCREMENTED"<<endl;
 			}
 		}
 		else{
 			if (input % i==0){
-				//cout<<"PRIME FOUND"<<endl;
 				output.push_back(i);
-				//cout<<"Pushback"<<endl;
-				input=input/i;
+				input/=i;
 			}
 			else{
 				i+=2;
-				//cout<<"INCREMENTED"<<endl;
 			}
 		}
 	}
@@ -137,6 +134,10 @@ bool checkPrime(unsigned long int input){
 }
 
 bool millerPrime(unsigned long int input){
-
+	int certaintyFactor=10;
+	unsigned long int a,x,d;
+	
+	for (int i=0; i<certaintyFactor;i++){
+		
 }
 
