@@ -138,6 +138,6 @@ bool millerPrime(unsigned long int input){
 	unsigned long int a,x,d;
 	
 	for (int i=0; i<certaintyFactor;i++){
-		
+	}
 }
 
