@@ -5,7 +5,6 @@
 #include <list>
 #include <numeric>
 #include <iostream>
-
 #include "primeFactors.h"
 
 
