@@ -1,5 +1,5 @@
 INCLUDEDIR     = ../headers/
-CXXFLAGS       = -std=c++11 -I $(INCLUDEDIR) -Wall -Wfatal-errors -O3
+CXXFLAGS       = -m64 -std=c++11 -I $(INCLUDEDIR) -Wall -Wfatal-errors -O3
 PRIMEBEST      = primeFactors-BestStudent_2016-2017.o
 PRIMEOPTIMISED = primeFactors-Optimised.o
 PRIMEFACTORS   = primeFactors.o
