@@ -20,8 +20,8 @@ If the parameter is 0 or 1, the resulting list should be empty.
 */
 std::list<unsigned long int> primeFactors(unsigned long int input);
 void sieveOfE();
-std::list<unsigned long int> trialDivisionUp(unsigned long int input);
-std::list<unsigned long int> trialDivisionDown(unsigned long int input);
+static std::list<unsigned long int> trialDivisionUp(unsigned long int input);
+static std::list<unsigned long int> trialDivisionDown(unsigned long int input);
 void *pthread_wrapper_up(void *arg);
 void *pthread_wrapper_down(void *arg);
 #endif

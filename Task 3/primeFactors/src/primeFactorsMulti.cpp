@@ -1,10 +1,17 @@
-#include "primeFactors.h"
+#include "primeFactorsMulti.h"
 #include <pthread.h>
 using namespace std;
 
 const int MAX_SIEVE = 10000000;
 static bool isPrime[MAX_SIEVE];
 static bool isSieveCalled=false;
+
+//DATA STRUCT FOR PTHREAD_WRAPPERS
+struct thread_data {
+	unsigned long int input;
+	list<unsigned long int> output;
+};
+
 /* 
 Prime Factors:
 The first set of logic satements are input sanitation such that any number less than to 2 will be not added to the prime factor outputs, due to the first prime number being 2 which should 2 be entered will instantly return due to the special case of it being the only even prime number and as such causing small issues with code when it is entered on its own.
@@ -16,6 +23,7 @@ This array is from 0-MAX_SIEVE with each natural number being a location in memo
 It then calls the function trialDivision outputting the list of prime factors to the list called output; which is then returned
 */
 list<unsigned long int> primeFactors(unsigned long int input){
+	list<unsigned long int> output = {};
 	list<unsigned long int> outputUp = {};
 	list<unsigned long int> outputDown = {};
 	if (input<=1){
@@ -28,7 +36,24 @@ list<unsigned long int> primeFactors(unsigned long int input){
 	if(isSieveCalled==false){
 		sieveOfE();
 	}
-	outputUp=*
+	pthread_t thread1, thread2;
+   	void* returnUp = NULL;
+   	void* returnDown=NULL;
+   	thread_data* primeFactorsUp;
+   	thread_data* primeFactorsDown;
+   	primeFactorsUp->input=input;
+	primeFactorsDown->input=input;
+	
+   	pthread_create(&thread1, NULL, pthread_wrapper_up, &primeFactorsUp);
+   	pthread_create(&thread2, NULL, pthread_wrapper_down, &primeFactorsDown);
+   	
+   	pthread_join(thread1, &returnUp);
+   	pthread_join(thread2, &returnDown);
+   
+   	outputUp=&primeFactorsUp->output;
+   	outputDown=&primeFactorsDown->ouput;
+   	output=outputUp;
+   	output.merge(outputDown);
 	return output;
 }
 /*
@@ -72,7 +97,7 @@ Base understanding and small improvements gained from:
 Khan Academy, 2017.COMPUTER SCIENCE-> JOURNEY INTO CRYPTOGRAPHY-> Primality test-> Trial Division [Online] Khan Academy
 Available at:https://www.khanacademy.org/computing/computer-science/cryptography/comp-number-theory/a/trial-division [Accessed 29th December 2017] 
 */
-list<unsigned long int> trialDivisionUp(unsigned long int input){
+static list<unsigned long int> trialDivisionUp(unsigned long int input){
 	list<unsigned long int> output={};
 	unsigned long int i=3;
 	//WHILE LOOP FOR DIVISION BY TWO
@@ -104,7 +129,7 @@ list<unsigned long int> trialDivisionUp(unsigned long int input){
 	return output;
 }
 
-list<unsigned long int> trialDivisionDown(unsigned long int input){
+static list<unsigned long int> trialDivisionDown(unsigned long int input){
 	list<unsigned long int> output={};
 	double preCastI=sqrt(input)/2;
 	unsigned long int i=floor(preCastI);
@@ -136,13 +161,16 @@ list<unsigned long int> trialDivisionDown(unsigned long int input){
 }
 
 void *pthread_wrapper_up(void *arg){
-	unsigned long int wrapper_input= *(unsigned long int *)arg;
-	list<unsigned long int> output=trialDivisionUp(wrapper_input);
-	list<unsigned long int> *return_output = malloc(sizeof(output)
-	*return_output=output;
-	return return_output;
+	struct thread_data *wrapper_data;
+	wrapper_data=(struct thread_data *) arg;
+	thread_data->output=trialDivisionUp(thread_data->input);
+	pthread_exit(arg);
 }
-void *pthread_wrapper_down(void *arg);
-
+void *pthread_wrapper_down(void *arg){
+	struct thread_data *wrapper_data;
+	wrapper_data=(struct thread_data *) arg;
+	thread_data->output=trialDivisionDown(thread_data->input);
+	pthread_exit(arg);
+}
 
 
