@@ -31,7 +31,7 @@ bool isValidSentence(const string &input){
         return false;
     }
 
-    //Pull the first 3 characters into a char array, check for correct prefix. Has absolute posistion
+    //Pull the first 3 characters into a char array, check for correct prefix. Has absolute position
     char charArr[5];
     size_t length =input.copy(charArr,3,0);
     string prefix(charArr);
@@ -41,7 +41,7 @@ bool isValidSentence(const string &input){
     else{
         return false;
     }
-    //Pull the identifier for sentance format, has absolute posistion so will always work
+    //Pull the identifier for sentence format, has absolute position so will always work
     length=input.copy(charArr,3,3);
     string identifier(charArr);
     if (identifier.length()==3){
@@ -50,7 +50,7 @@ bool isValidSentence(const string &input){
     else{
         return false;
     }
-    //Check for the start of the CSVs, will have absolute posistion
+    //Check for the start of the CSVs, will have absolute position
     string csValue=input.substr(6,1);
     if(csValue==","){
         hasCSValues=true;
@@ -58,7 +58,7 @@ bool isValidSentence(const string &input){
     else{
         return false;
     }
-    //Finds the last instance of the * character, incase of wildcards in data. if the posistion is greater than the minimum length carry on
+    //Finds the last instance of the * character, in case of wildcards in data. if the position is greater than the minimum length carry on
     char key ='*';
     size_t pos=input.rfind(key);
     if (pos>6){
@@ -144,7 +144,7 @@ Position extractPosition(const NMEAPair &input){
             northing='S';
         }
         else{
-            throw invalid_argument("Invalid Arguement");
+            throw invalid_argument("Invalid Argument");
         }
         string lonStr=sentence[2];
         string eastingStr=sentence[3];
@@ -156,7 +156,7 @@ Position extractPosition(const NMEAPair &input){
             easting='W';
         }
         else{
-            throw invalid_argument("Invalid Arguement");
+            throw invalid_argument("Invalid Argument");
         }
         Position output (latStr,northing,lonStr,easting,"0");
         return output;
@@ -173,7 +173,7 @@ Position extractPosition(const NMEAPair &input){
             northing='S';
         }
         else{
-            throw invalid_argument("Invalid Arguement");
+            throw invalid_argument("Invalid Argument");
         }
         string lonStr=sentence[4];
         string eastingStr=sentence[5];
@@ -185,7 +185,7 @@ Position extractPosition(const NMEAPair &input){
             easting='W';
         }
         else{
-            throw invalid_argument("Invalid Arguement");
+            throw invalid_argument("Invalid Argument");
         }
         Position output (latStr,northing,lonStr,easting,"0");
         return output;
@@ -202,7 +202,7 @@ Position extractPosition(const NMEAPair &input){
             northing='S';
         }
         else{
-            throw invalid_argument("Invalid Arguement");
+            throw invalid_argument("Invalid Argument");
         }
         string lonStr=sentence[3];
         string eastingStr=sentence[4];
@@ -214,14 +214,14 @@ Position extractPosition(const NMEAPair &input){
             easting='W';
         }
         else{
-            throw invalid_argument("Invalid Arguement");
+            throw invalid_argument("Invalid Argument");
         }
         Position output (latStr,northing,lonStr,easting,sentence[8]);
         return output;
     }
 
     else{
-        throw invalid_argument("Invalid Arguement");
+        throw invalid_argument("Invalid Argument");
     }
 }
 
@@ -241,6 +241,7 @@ vector<Position> routeFromNMEALog(const string &filepath){
             output.push_back(extractPosition(decomposeSentence(currentLine)));
         }
     }
+	file.close();
     return output;
 }
 }
