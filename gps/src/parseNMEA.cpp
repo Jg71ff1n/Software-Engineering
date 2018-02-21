@@ -119,7 +119,6 @@ NMEAPair decomposeSentence(const string &nmeaSentence){
         getline(ss,substring,',');
         valuesVector.push_back(substring);
     }
-
     output.second=valuesVector;
     return output;
 }
@@ -129,102 +128,69 @@ NMEAPair decomposeSentence(const string &nmeaSentence){
 *  For ill-formed or unsupported sentence types, throws a std::invalid_argument exception.
 */
 Position extractPosition(const NMEAPair &input){
-
-
-
     vector<string> sentence=input.second;
     if(input.first=="GPGLL"){
         string latStr=sentence[0];
-        string northingStr=sentence[1];
-        char northing;
-        if (northingStr=="N"){
-            northing='N';
-        }
-        else if (northingStr=="S"){
-            northing='S';
-        }
-        else{
-            throw invalid_argument("Invalid Argument");
-        }
         string lonStr=sentence[2];
-        string eastingStr=sentence[3];
-        char easting;
-        if(eastingStr=="E"){
-            easting='E';
-        }
-        else if(eastingStr=="W"){
-            easting='W';
-        }
-        else{
+        char northing=sentence[1][0];
+		char easting=sentence[3][0];
+		if (northing=='N' || northing=='S')
+		{
+			if (easting=='E'|| easting=='W'){
+				Position output (latStr,northing,lonStr,easting,"0");
+                return output;
+			}
+			else{
             throw invalid_argument("Invalid Argument");
-        }
-        Position output (latStr,northing,lonStr,easting,"0");
-        return output;
+			}
+		}
+		else{
+            throw invalid_argument("Invalid Argument");
+        }		
     }
-
     else if(input.first=="GPRMC"){
         string latStr=sentence[2];
-        string northingStr=sentence[3];
-        char northing;
-        if (northingStr=="N"){
-            northing='N';
-        }
-        else if (northingStr=="S"){
-            northing='S';
-        }
-        else{
+		string lonStr=sentence[4];
+		char northing=sentence[3][0];
+		char easting=sentence[5][0];
+		if (northing=='N' || northing=='S')
+		{
+			if (easting=='E'|| easting=='W'){
+				Position output (latStr,northing,lonStr,easting,"0");
+                return output;
+			}
+			else{
             throw invalid_argument("Invalid Argument");
-        }
-        string lonStr=sentence[4];
-        string eastingStr=sentence[5];
-        char easting;
-        if(eastingStr=="E"){
-            easting='E';
-        }
-        else if(eastingStr=="W"){
-            easting='W';
-        }
-        else{
+			}
+		}
+		else{
             throw invalid_argument("Invalid Argument");
-        }
-        Position output (latStr,northing,lonStr,easting,"0");
-        return output;
-    }
+        }        
 
+    }
     else if (input.first=="GPGGA"){
         string latStr=sentence[1];
-        string northingStr=sentence[2];
-        char northing;
-        if (northingStr=="N"){
-            northing='N';
-        }
-        else if (northingStr=="S"){
-            northing='S';
-        }
-        else{
+		string lonStr=sentence[3];
+		char northing=sentence[2][0];
+		char easting=sentence[4][0];
+		if (northing=='N' || northing=='S')
+		{
+			if (easting=='E'|| easting=='W'){
+				Position output (latStr,northing,lonStr,easting,sentence[8]);
+                return output;
+			}
+			else{
+            throw invalid_argument("Invalid Argument");
+			}
+		}
+		else{
             throw invalid_argument("Invalid Argument");
         }
-        string lonStr=sentence[3];
-        string eastingStr=sentence[4];
-        char easting;
-        if(eastingStr=="E"){
-            easting='E';
-        }
-        else if(eastingStr=="W"){
-            easting='W';
-        }
-        else{
-            throw invalid_argument("Invalid Argument");
-        }
-        Position output (latStr,northing,lonStr,easting,sentence[8]);
-        return output;
     }
-
     else{
         throw invalid_argument("Invalid Argument");
     }
 }
-
 
 /*  Pre-condition: The parameter is the filepath of a file containing NMEA sentences
 *  (one per line).
@@ -241,7 +207,7 @@ vector<Position> routeFromNMEALog(const string &filepath){
             output.push_back(extractPosition(decomposeSentence(currentLine)));
         }
     }
-	file.close();
+	inputFile.close();
     return output;
 }
 }
